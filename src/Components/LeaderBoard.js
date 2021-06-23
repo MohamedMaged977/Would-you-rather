@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import LoginPage from "./LoginPage";
 
 function countPoints(user) {
   return Object.keys(user.answers).length + user.questions.length;
 }
 class LeaderBoard extends Component {
-  componentDidMount() {
-    const { authedUser } = this.props;
-    !authedUser && this.props.history.push("/");
-  }
   render() {
     const { users } = this.props;
-    return (
+    console.log("authed user ", this.props.authedUser);
+    return this.props.authedUser ? (
       <div>
         <h3 className="center">LeaderBoard</h3>
         {users.map((user) => {
@@ -38,6 +36,8 @@ class LeaderBoard extends Component {
           );
         })}
       </div>
+    ) : (
+      <LoginPage loc={"leaderboard"} />
     );
   }
 }

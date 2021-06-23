@@ -18,10 +18,11 @@ class LoginPage extends Component {
     e.preventDefault();
 
     const { text } = this.state;
-    const { dispatch, usersIds } = this.props;
+    const { dispatch, usersIds, loc } = this.props;
     if (usersIds.find((x) => x === text)) {
       dispatch(setAuthedUser(text));
-      this.props.history.push("/homepage");
+      console.log("location", loc);
+      this.props.history.push(`/${loc ? loc : "homepage"}`);
     } else alert("No Such user");
 
     this.setState(() => ({

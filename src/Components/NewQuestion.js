@@ -2,17 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { handleAddQuestion } from "../actions/questions";
 import { Redirect } from "react-router-dom";
-
+import LoginPage from "./LoginPage";
 class NewQuestion extends Component {
   state = {
     optionOneText: "",
     optionTwoText: "",
     toHome: false,
   };
-  componentDidMount() {
-    const { authedUser } = this.props;
-    !authedUser && this.props.history.push("/");
-  }
+
   handleOp1 = (e) => {
     const text = e.target.value;
     this.setState({
@@ -76,7 +73,9 @@ class NewQuestion extends Component {
           </button>
         </form>
       </div>
-    ) : null;
+    ) : (
+      <LoginPage loc={"newQuestion"} />
+    );
   }
 }
 function mapStateToProps({ questions, authedUser }) {
