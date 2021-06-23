@@ -134,7 +134,6 @@ export function _getQuestions() {
   });
 }
 export function formatQ(question, author) {
-  console.log("format Q question", question, "author", author);
   const { id, timestamp, optionOne, optionTwo } = question;
   const { name, avatarURL } = author;
   return {
@@ -181,7 +180,6 @@ export function _saveQuestion(question) {
         ...questions,
         [formattedQuestion.id]: formattedQuestion,
       };
-      console.log("authed user :", authedUser);
       users = {
         ...users,
         [authedUser]: {

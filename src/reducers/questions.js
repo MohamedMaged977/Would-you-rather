@@ -11,7 +11,6 @@ export default function questions(state = {}, action) {
         ...action.questions,
       };
     case ADD_QUESTION:
-      console.log("add action ", action);
       return {
         ...state,
         [action.question.id]: action.question,
@@ -22,20 +21,23 @@ export default function questions(state = {}, action) {
         [action.question.id]: {
           ...state[action.question.id],
           optionOne: {
+            text: state[action.question.id].optionOne.text,
             votes:
               action.answer === "op1"
                 ? state[action.question.id].optionOne.votes.concat([
                     action.authedUser,
                   ])
-                : null,
+                : state[action.question.id].optionOne.votes,
           },
           optionTwo: {
+            text: state[action.question.id].optionTwo.text,
+
             votes:
               action.answer === "op2"
                 ? state[action.question.id].optionTwo.votes.concat([
                     action.authedUser,
                   ])
-                : null,
+                : state[action.question.id].optionTwo.votes,
           },
         },
       };

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { formatQ } from "../Data/_DATA";
 import { formatDate } from "../Data/helper";
 import { handleAddAnswer } from "../actions/questions";
+import { handleAddUserAnswer } from "../actions/users";
+
 /*<img src={avatar} alt={`Avatar of ${author}`} className="avatar" />
         <div className="tweet-info">
           <div>
@@ -25,8 +27,8 @@ function scores(question, authedUser) {
   const op1Votes = question.optionOne.votes.length;
   const op2Votes = question.optionTwo.votes.length;
   const total = op1Votes + op2Votes;
-  const op1Percent = (op1Votes / total) * 100;
-  const op2Percent = (op2Votes / total) * 100;
+  const op1Percent = ((op1Votes / total) * 100).toFixed(2);
+  const op2Percent = ((op2Votes / total) * 100).toFixed(2);
   return {
     op1Votes,
     op2Votes,
@@ -42,15 +44,27 @@ function scores(question, authedUser) {
 }
 
 class QuestionPage extends Component {
+  componentDidMount() {
+    const { authedUser } = this.props;
+    !authedUser && this.props.history.push("/");
+  }
   handleAnswer1 = (e) => {
     e.preventDefault();
-    const { dispatch, questionA, authedUser } = this.props;
+    const { dispatch, questionA, authedUser, users } = this.props;
 
     dispatch(
       handleAddAnswer({
         question: questionA,
         authedUser,
         answer: "op1",
+      })
+    );
+    dispatch(
+      handleAddUserAnswer({
+        question: questionA,
+        authedUser,
+        answer: "optionOne",
+        users,
       })
     );
   };
@@ -72,11 +86,9 @@ class QuestionPage extends Component {
     const answered = isAnswered(question, authedUser);
     const score = scores(question, authedUser);
 
-    console.log("score : ", score);
     //const { timestamp, author, avatar, optionOne, optionTwo } = question;
     return (
       <div className="tweet">
-        {console.log(question)}
         {question ? (
           <>
             <img
@@ -93,7 +105,7 @@ class QuestionPage extends Component {
                   id="op1"
                   disabled={answered}
                   className={
-                    score.authedUserVote === "op1" ? "buttonAns" : null
+                    score.authedUserVote === "op1" ? "buttonAns" : "button1"
                   }
                   onClick={this.handleAnswer1}
                 >
@@ -113,7 +125,7 @@ class QuestionPage extends Component {
                 <button
                   id="op2"
                   className={
-                    score.authedUserVote === "op2" ? "buttonAns" : null
+                    score.authedUserVote === "op2" ? "buttonAns" : "button1"
                   }
                   disabled={answered}
                   onClick={this.handleAnswer2}
@@ -148,6 +160,7 @@ function mapStateToProps({ users, questions, authedUser }, props) {
     authedUser,
     question: question ? formatQ(question, users[question.author]) : null,
     questionA: question,
+    users,
   };
 }
 export default connect(mapStateToProps)(QuestionPage);

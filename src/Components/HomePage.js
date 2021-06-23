@@ -37,9 +37,6 @@ class HomePage extends Component {
     const filteredQuestions = this.filterQ();
     return authedUser ? (
       <div>
-        {console.log(this.props.authedUser)}
-        {console.log(this.state.answered)}
-
         <h3 className="center">Your Timeline</h3>
         <div className="center-div">
           <button

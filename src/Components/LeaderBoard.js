@@ -11,7 +11,6 @@ class LeaderBoard extends Component {
   }
   render() {
     const { users } = this.props;
-    console.log("leader users ", users);
     return (
       <div>
         <h3 className="center">LeaderBoard</h3>

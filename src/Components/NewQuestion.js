@@ -18,14 +18,12 @@ class NewQuestion extends Component {
     this.setState({
       optionOneText: text,
     });
-    console.log("inp1 ", this.state.optionOneText);
   };
   handleOp2 = (e) => {
     const text = e.target.value;
     this.setState({
       optionTwoText: text,
     });
-    console.log("inp2 ", this.state.optionTwoText);
   };
   handleSubmit = (e) => {
     e.preventDefault();

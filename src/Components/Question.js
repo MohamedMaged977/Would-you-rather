@@ -11,7 +11,7 @@ class Question extends Component {
     if (question === null) {
       return <p>This Tweet doesn't existd</p>;
     }
-    const { id, timestamp, author, avatar, optionOne, optionTwo } = question;
+    const { id, timestamp, author, avatar } = question;
 
     return (
       <div className="tweet">
@@ -30,9 +30,7 @@ class Question extends Component {
 }
 
 function mapStateToProps({ users, questions }, { id }) {
-  console.log("mapStateToProps users, questions, id", users, questions, id);
   const question = questions[id];
-  console.log("map q id ", id);
 
   return {
     question: question ? formatQ(question, users[question.author]) : null,

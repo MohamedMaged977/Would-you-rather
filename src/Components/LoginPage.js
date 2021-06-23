@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setAuthedUser } from "../actions/authedUser";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class LoginPage extends Component {
   state = {
@@ -24,14 +24,9 @@ class LoginPage extends Component {
       this.props.history.push("/homepage");
     } else alert("No Such user");
 
-    console.log("mm");
-    this.setState(
-      () => ({
-        text: "",
-      }),
-      console.log(this.state.text)
-    );
-    console.log(this.state.text);
+    this.setState(() => ({
+      text: "",
+    }));
   };
   render() {
     return (

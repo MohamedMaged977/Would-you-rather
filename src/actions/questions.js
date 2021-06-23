@@ -1,7 +1,5 @@
-import Question from "../Components/Question";
 import { saveQuestionAnswer } from "../Data/helper";
-import { formatQuestion, _saveQuestion } from "../Data/_DATA";
-
+import { _saveQuestion } from "../Data/_DATA";
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const TOGGLE_QUESTION = "TOGGLE_QUESTION";
 export const ADD_QUESTION = "ADD_QUESTION";
@@ -44,7 +42,16 @@ export function handleAddAnswer(info) {
   return (dispatch) => {
     dispatch(AnswerQuestion(info));
 
-    return saveQuestionAnswer(info).catch((e) => {
+    return saveQuestionAnswer({
+      authedUser: info.authedUser,
+      qid: info.question.id,
+      answer:
+        info.answer === "op1"
+          ? "optionOne"
+          : info.answer === "op2"
+          ? "optionTwo"
+          : null,
+    }).catch((e) => {
       console.warn("Error in handleToggleTweet: ", e);
       dispatch(AnswerQuestion(info));
       alert("The was an error liking the tweet. Try again.");
