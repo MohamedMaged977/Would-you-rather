@@ -52,7 +52,7 @@ class NewQuestion extends Component {
 
     return authedUser ? (
       <div>
-        <h3 className="center">Compose new Pull</h3>
+        <h3 className="center">Compose new Poll</h3>
         <form className="new-tweet" onSubmit={this.handleSubmit}>
           <h2>Would you rather ? </h2>
           <input

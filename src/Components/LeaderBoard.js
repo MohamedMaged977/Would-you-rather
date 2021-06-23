@@ -11,6 +11,7 @@ class LeaderBoard extends Component {
   }
   render() {
     const { users } = this.props;
+    console.log("leader users ", users);
     return (
       <div>
         <h3 className="center">LeaderBoard</h3>
@@ -18,7 +19,7 @@ class LeaderBoard extends Component {
           return (
             <div className="tweet" key={user.id}>
               <img
-                src={user.avatar}
+                src={user.avatarURL}
                 alt={`Avatar of ${user.name}`}
                 className="avatar"
               />

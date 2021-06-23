@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Question from "./Question";
 class HomePage extends Component {
   state = {
-    answered: true,
+    answered: false,
   };
   handleSubmit = (e) => {
     this.setState(() => ({
@@ -44,15 +44,15 @@ class HomePage extends Component {
         <div className="center-div">
           <button
             onClick={() => this.handleSubmit()}
-            disabled={this.state.answered === true}
-          >
-            Answered Questions
-          </button>
-          <button
-            onClick={() => this.handleSubmit()}
             disabled={this.state.answered === false}
           >
             Unanswered Questions
+          </button>
+          <button
+            onClick={() => this.handleSubmit()}
+            disabled={this.state.answered === true}
+          >
+            Answered Questions
           </button>
         </div>
 

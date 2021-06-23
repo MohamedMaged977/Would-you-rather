@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { formatQ } from "../Data/_DATA";
 import { formatDate } from "../Data/helper";
+import { handleAddAnswer } from "../actions/questions";
 /*<img src={avatar} alt={`Avatar of ${author}`} className="avatar" />
         <div className="tweet-info">
           <div>
@@ -20,10 +21,58 @@ function isAnswered(question, authedUser) {
     false
   );
 }
+function scores(question, authedUser) {
+  const op1Votes = question.optionOne.votes.length;
+  const op2Votes = question.optionTwo.votes.length;
+  const total = op1Votes + op2Votes;
+  const op1Percent = (op1Votes / total) * 100;
+  const op2Percent = (op2Votes / total) * 100;
+  return {
+    op1Votes,
+    op2Votes,
+    total,
+    op1Percent,
+    op2Percent,
+    authedUserVote: isAnswered(question, authedUser)
+      ? question.optionOne.votes.find((id) => id === authedUser)
+        ? "op1"
+        : "op2"
+      : null,
+  };
+}
+
 class QuestionPage extends Component {
+  handleAnswer1 = (e) => {
+    e.preventDefault();
+    const { dispatch, questionA, authedUser } = this.props;
+
+    dispatch(
+      handleAddAnswer({
+        question: questionA,
+        authedUser,
+        answer: "op1",
+      })
+    );
+  };
+  handleAnswer2 = (e) => {
+    e.preventDefault();
+    const { dispatch, questionA, authedUser } = this.props;
+
+    dispatch(
+      handleAddAnswer({
+        question: questionA,
+        authedUser,
+        answer: "op2",
+      })
+    );
+  };
+
   render() {
     const { question, authedUser } = this.props;
     const answered = isAnswered(question, authedUser);
+    const score = scores(question, authedUser);
+
+    console.log("score : ", score);
     //const { timestamp, author, avatar, optionOne, optionTwo } = question;
     return (
       <div className="tweet">
@@ -40,9 +89,47 @@ class QuestionPage extends Component {
                 <span>{question.author}</span>
                 <div>{formatDate(question.timestamp)}</div>
                 <p>Would you rather?</p>
-                <button disabled={answered}>{question.optionOne.text}</button>
+                <button
+                  id="op1"
+                  disabled={answered}
+                  className={
+                    score.authedUserVote === "op1" ? "buttonAns" : null
+                  }
+                  onClick={this.handleAnswer1}
+                >
+                  {question.optionOne.text}
+                </button>
                 <br />
-                <button disabled={answered}>{question.optionTwo.text}</button>
+                <span>
+                  <progress id="progressBar" max="100" value={score.op1Percent}>
+                    {score.op1Percent}
+                  </progress>
+                  <p className="center">{score.op1Percent}%</p>
+                  <p>
+                    Number of Votes :{score.op1Votes} / {score.total}
+                  </p>
+                </span>
+                <br />
+                <button
+                  id="op2"
+                  className={
+                    score.authedUserVote === "op2" ? "buttonAns" : null
+                  }
+                  disabled={answered}
+                  onClick={this.handleAnswer2}
+                >
+                  {question.optionTwo.text}{" "}
+                </button>
+                <br />
+                <span>
+                  <progress id="progressBar" max="100" value={score.op2Percent}>
+                    {score.op2Percent}
+                  </progress>
+                  <p className="center">{score.op2Percent}%</p>
+                  <p>
+                    Number of Votes :{score.op2Votes} / {score.total}
+                  </p>
+                </span>
               </div>
             </div>{" "}
           </>
@@ -60,6 +147,7 @@ function mapStateToProps({ users, questions, authedUser }, props) {
     id,
     authedUser,
     question: question ? formatQ(question, users[question.author]) : null,
+    questionA: question,
   };
 }
 export default connect(mapStateToProps)(QuestionPage);
