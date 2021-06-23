@@ -41,6 +41,8 @@ class LoginPage extends Component {
           <button type="submit" disabled={this.state.text === ""}>
             <span>Log in</span>
           </button>
+          <br />
+          Hint : id like "sarahedo"
         </form>
       </div>
     );
