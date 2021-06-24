@@ -93,10 +93,10 @@ class QuestionPage extends Component {
       : null;
 
     //const { timestamp, author, avatar, optionOne, optionTwo } = question;
-    return authedUser ? (
-      Object.values(this.props.questions).find(
-        (q) => q.id === this.props.id
-      ) ? (
+    return Object.values(this.props.questions).find(
+      (q) => q.id === this.props.id
+    ) ? (
+      authedUser ? (
         <div className="tweet">
           {question ? (
             <>
@@ -165,10 +165,10 @@ class QuestionPage extends Component {
           ) : null}
         </div>
       ) : (
-        <NotFound />
+        <LoginPage />
       )
     ) : (
-      <LoginPage />
+      <NotFound />
     );
   }
 }

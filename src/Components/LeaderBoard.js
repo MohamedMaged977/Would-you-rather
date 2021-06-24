@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import LoginPage from "./LoginPage";
 
 function countPoints(user) {
+  console.log("uql : ", user.questions.length);
   return Object.keys(user.answers).length + user.questions.length;
 }
 class LeaderBoard extends Component {

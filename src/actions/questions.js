@@ -5,10 +5,11 @@ export const TOGGLE_QUESTION = "TOGGLE_QUESTION";
 export const ADD_QUESTION = "ADD_QUESTION";
 export const ADD_ANSWER = "ADD_ANSWER";
 
-function addQuestion(question) {
+function addQuestion(question, authedUser) {
   return {
     type: ADD_QUESTION,
     question,
+    authedUser,
   };
 }
 export function handleAddQuestion(optionOneText, optionTwoText) {
@@ -19,7 +20,7 @@ export function handleAddQuestion(optionOneText, optionTwoText) {
       optionOneText: optionOneText,
       optionTwoText: optionTwoText,
       author: users[authedUser],
-    }).then((question) => dispatch(addQuestion(question)));
+    }).then((question) => dispatch(addQuestion(question, authedUser)));
   };
 }
 export function receiveQuestions(questions) {
